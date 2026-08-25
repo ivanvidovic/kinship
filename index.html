@@ -1068,7 +1068,7 @@ function patchFabricMaterial(mat){
     sh.fragmentShader = sh.fragmentShader.replace('#include <roughnessmap_fragment>',
       '#include <roughnessmap_fragment>\n roughnessFactor = mix(roughnessFactor, clamp(uArtRough, 0.02, 1.0), clamp(kArtworkMask, 0.0, 1.0));');
   };
-  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v9-inner-shade';
+  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v10-edge-fringe-fix';
   mat.needsUpdate=true;
   return mat;
 }
@@ -2087,6 +2087,19 @@ function makeArtworkMask(img){
     if(mask<2) mask=0;
     d[i]=255; d[i+1]=255; d[i+2]=255; d[i+3]=mask;
   }
+
+  // Remove any fringe pixels sitting right on the uploaded image border.
+  // This avoids thin white edge artifacts from appearing along the print edge
+  // after filtering or when a source asset has tiny anti-aliased leftovers.
+  const borderPx=Math.min(2, Math.max(1, Math.floor(Math.min(srcW,srcH)/256)));
+  for(let y=0;y<srcH;y++){
+    for(let x=0;x<srcW;x++){
+      if(x<borderPx || x>=srcW-borderPx || y<borderPx || y>=srcH-borderPx){
+        d[(y*srcW+x)*4+3]=0;
+      }
+    }
+  }
+
   sx.putImageData(im,0,0);
 
   // Transparent texture padding is the standard way to keep linear filtering
