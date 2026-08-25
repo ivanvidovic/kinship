@@ -615,11 +615,11 @@ const OUTLINE = [
 ];
 
 const GARMENTS = [
-  { name:'Natural', hex:'#E2DACC', dark:false },
-  { name:'Sage',    hex:'#A3A996', dark:false },
-  { name:'Clay',    hex:'#B9836C', dark:true  },
-  { name:'Slate',   hex:'#4E555A', dark:true  },
-  { name:'Faded Black',   hex:'#171311', dark:true  },
+  { name:'Natural',      hex:'#E2D2B6', dark:false },
+  { name:'Sage',         hex:'#82715F', dark:true  },
+  { name:'Faded Black',  hex:'#171311', dark:true  },
+  { name:'Clay',         hex:'#B9836C', dark:true  },
+  { name:'Slate',        hex:'#4E555A', dark:true  },
 ];
 
 /* Print placement in metres on the garment: x across the chest (+x is the
@@ -1068,7 +1068,7 @@ function patchFabricMaterial(mat){
     sh.fragmentShader = sh.fragmentShader.replace('#include <roughnessmap_fragment>',
       '#include <roughnessmap_fragment>\n roughnessFactor = mix(roughnessFactor, clamp(uArtRough, 0.02, 1.0), clamp(kArtworkMask, 0.0, 1.0));');
   };
-  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v13-alpha-tighten-no-mips';
+  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v13-alpha-tighten-no-mips-garment-palette';
   mat.needsUpdate=true;
   return mat;
 }
