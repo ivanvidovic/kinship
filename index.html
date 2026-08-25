@@ -994,9 +994,8 @@ const FRAG_PRINT=`
           (vPrintUv.y - uUvRectA.y) * uRectA.w / uUvRectA.w
         );
         vec2 p = kArtRotate(d, uRotA) / uRectA.zw + 0.5;
-        if (p.x>0.004 && p.x<0.996 && p.y>0.004 && p.y<0.996) {
+        if (p.x>0.0 && p.x<1.0 && p.y>0.0 && p.y<1.0) {
           float m = texture2D(uInkA, p).a;
-          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * uInkOp);
           kArtworkMask = max(kArtworkMask, m);
         }
@@ -1007,9 +1006,8 @@ const FRAG_PRINT=`
           (vPrintUv.y - uUvRectB.y) * uRectB.w / uUvRectB.w
         );
         vec2 q = kArtRotate(d, uRotB) / uRectB.zw + 0.5;
-        if (q.x>0.004 && q.x<0.996 && q.y>0.004 && q.y<0.996) {
+        if (q.x>0.0 && q.x<1.0 && q.y>0.0 && q.y<1.0) {
           float m = texture2D(uInkB, q).a;
-          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * uInkOp);
           kArtworkMask = max(kArtworkMask, m);
         }
@@ -1019,18 +1017,16 @@ const FRAG_PRINT=`
       float face = smoothstep(0.03, 0.28, abs(N.z));
       if (gl_FrontFacing && uHasA > 0.5 && vObj.z > 0.0) {
         vec2 p = kArtRotate(vObj.xy - uRectA.xy, uRotA) / uRectA.zw + 0.5;
-        if (p.x>0.004 && p.x<0.996 && p.y>0.004 && p.y<0.996) {
+        if (p.x>0.0 && p.x<1.0 && p.y>0.0 && p.y<1.0) {
           float m = texture2D(uInkA, p).a;
-          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * face * uInkOp);
           kArtworkMask = max(kArtworkMask, m * face);
         }
       }
       if (gl_FrontFacing && uHasB > 0.5 && vObj.z < 0.0) {
         vec2 q = kArtRotate(vObj.xy - uRectB.xy, uRotB) / uRectB.zw + 0.5;
-        if (q.x>0.004 && q.x<0.996 && q.y>0.004 && q.y<0.996) {
+        if (q.x>0.0 && q.x<1.0 && q.y>0.0 && q.y<1.0) {
           float m = texture2D(uInkB, vec2(1.0-q.x, q.y)).a;
-          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * face * uInkOp);
           kArtworkMask = max(kArtworkMask, m * face);
         }
@@ -1072,7 +1068,7 @@ function patchFabricMaterial(mat){
     sh.fragmentShader = sh.fragmentShader.replace('#include <roughnessmap_fragment>',
       '#include <roughnessmap_fragment>\n roughnessFactor = mix(roughnessFactor, clamp(uArtRough, 0.02, 1.0), clamp(kArtworkMask, 0.0, 1.0));');
   };
-  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v11-edge-sample-tighten';
+  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v12-left-edge-heal';
   mat.needsUpdate=true;
   return mat;
 }
@@ -2092,14 +2088,25 @@ function makeArtworkMask(img){
     d[i]=255; d[i+1]=255; d[i+2]=255; d[i+3]=mask;
   }
 
-  // Remove any fringe pixels sitting right on the uploaded image border.
-  // This avoids thin white edge artifacts from appearing along the print edge
-  // after filtering or when a source asset has tiny anti-aliased leftovers.
-  const borderPx=Math.min(2, Math.max(1, Math.floor(Math.min(srcW,srcH)/256)));
+  // Some supplied artwork reaches the source image's left boundary with tiny,
+  // shallow fragments. When those fragments are mapped onto curved fabric they
+  // read as a vertical white seam. Do NOT crop or inset the artwork. Instead,
+  // remove only border-connected fragments that die out within a few pixels.
+  //
+  // If a real artwork feature continues farther into the image, it is preserved.
+  const edgeAlpha=8;
+  const maxLeftFragment=Math.max(6,Math.min(14,Math.round(srcW*0.01)));
   for(let y=0;y<srcH;y++){
-    for(let x=0;x<srcW;x++){
-      if(x<borderPx || x>=srcW-borderPx || y<borderPx || y>=srcH-borderPx){
-        d[(y*srcW+x)*4+3]=0;
+    let run=0;
+    while(run<srcW && d[(y*srcW+run)*4+3]>edgeAlpha) run++;
+    if(run>0 && run<=maxLeftFragment){
+      let continues=false;
+      const probeEnd=Math.min(srcW,run+4);
+      for(let x=run;x<probeEnd;x++){
+        if(d[(y*srcW+x)*4+3]>edgeAlpha){ continues=true; break; }
+      }
+      if(!continues){
+        for(let x=0;x<run;x++) d[(y*srcW+x)*4+3]=0;
       }
     }
   }
