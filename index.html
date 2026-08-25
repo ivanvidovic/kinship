@@ -615,8 +615,8 @@ const OUTLINE = [
 ];
 
 const GARMENTS = [
-  { name:'Natural',      hex:'#E2D2B6', dark:false },
-  { name:'Sage',         hex:'#82715F', dark:true  },
+  { name:'Bone',         hex:'#E2D2B6', dark:false },
+  { name:'Latte',        hex:'#82715F', dark:true  },
   { name:'Faded Black',  hex:'#171311', dark:true  },
   { name:'Clay',         hex:'#B9836C', dark:true  },
   { name:'Slate',        hex:'#4E555A', dark:true  },
@@ -1850,7 +1850,7 @@ document.getElementById('themeToggle').addEventListener('change',e=>{
   state.theme=e.target.checked ? 'dark' : 'light';
   applyTheme(true);
   if(!state.shirtColorsCustomized){
-    state.blank = state.theme==='dark' ? GARMENTS.findIndex(g=>g.name==='Faded Black') : GARMENTS.findIndex(g=>g.name==='Natural');
+    state.blank = state.theme==='dark' ? GARMENTS.findIndex(g=>g.name==='Faded Black') : GARMENTS.findIndex(g=>g.name==='Bone');
     setInkMode('auto', false);
     renderGarmentSwatches();
   } else {
