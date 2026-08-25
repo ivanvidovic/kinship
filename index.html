@@ -30,6 +30,31 @@
   .hspacer{flex:1 1 auto}
   .hmeta{display:flex;align-items:center;gap:10px}
   .dash{width:22px;height:1px;background:var(--rule-mid);flex:0 0 auto}
+  .helpBtn{
+    width:30px;height:30px;padding:0;display:grid;place-items:center;flex:0 0 auto;
+    border:1px solid var(--rule);background:transparent;color:var(--graphite);
+    font:inherit;font-size:11px;font-weight:500;cursor:pointer;border-radius:0
+  }
+  .helpBtn:hover{background:var(--wash);color:var(--ink)}
+  #helpDialog{
+    width:min(540px,calc(100% - 32px));max-height:calc(100% - 48px);
+    padding:0;border:1px solid var(--rule-mid);border-radius:0;
+    background:var(--paper);color:var(--ink);overflow:auto
+  }
+  #helpDialog::backdrop{background:rgba(10,8,7,.52)}
+  .helpHead{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px;border-bottom:1px solid var(--rule)}
+  .helpEyebrow{display:block;margin-bottom:6px;font-size:8px;line-height:1;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .helpHead h2{margin:0;font-size:16px;line-height:1.2;font-weight:500;letter-spacing:.02em}
+  .helpClose{width:30px;height:30px;padding:0;display:grid;place-items:center;border:1px solid var(--rule);background:transparent;color:var(--graphite);font:inherit;font-size:18px;line-height:1;cursor:pointer;border-radius:0}
+  .helpClose:hover{background:var(--wash);color:var(--ink)}
+  .helpBody{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 20px 20px}
+  .helpBody section{padding:16px 0;border-bottom:1px solid var(--rule)}
+  .helpBody section:nth-child(odd){padding-right:18px}
+  .helpBody section:nth-child(even){padding-left:18px;border-left:1px solid var(--rule)}
+  .helpBody section:last-child,.helpBody section:nth-last-child(2){border-bottom:0}
+  .helpBody h3{margin:0 0 7px;font-size:9px;line-height:1.2;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--graphite)}
+  .helpBody p{margin:0 0 8px;font-size:11px;line-height:1.5;color:var(--graphite)}
+  .helpBody p:last-child{margin-bottom:0}
   .themeToggle{position:relative;width:60px;height:30px;display:block;flex:0 0 auto;cursor:pointer}
   .themeToggle input{position:absolute;opacity:0;pointer-events:none}
   .themeTrack{position:absolute;inset:0;border:1px solid var(--rule);background:transparent}
@@ -147,6 +172,7 @@
   .appearanceControls{display:flex;flex-direction:column;gap:14px;padding-top:4px}
   .appearanceControls>.subsec:first-child{padding-top:14px;border-top:1px solid var(--rule)}
   .finishCtrl{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px}
+  .finishCtrl.hasReset{grid-template-columns:auto minmax(0,1fr) auto 24px;gap:8px}
   .finishCtrl input[type=range]{width:100%;margin:0;accent-color:var(--accent);cursor:pointer}
   .finishEnd{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite);opacity:.72;white-space:nowrap}
   .uploadCard{border:1px solid var(--rule);background:rgba(255,255,255,.08)}
@@ -162,11 +188,25 @@
   .adjustFold>summary{padding:12px 0 13px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:var(--graphite);font-variant-numeric:tabular-nums}
   .adjustBody{display:flex;flex-direction:column;gap:11px;padding:7px 0 14px}
   .adjustBody .ctrl{grid-template-columns:minmax(max-content,108px) minmax(0,1fr) 58px}
+  .ctrl.hasReset{grid-template-columns:minmax(max-content,108px) minmax(0,1fr) 54px 24px;gap:7px}
+  .adjustBody .ctrl.hasReset{grid-template-columns:minmax(max-content,102px) minmax(0,1fr) 54px 24px;gap:7px}
   .adjustReset{display:flex;justify-content:flex-end;padding-top:3px}
   .compactRow{display:flex;align-items:center;justify-content:space-between;gap:12px}
   .compactRow .lbl{white-space:nowrap}
   .inkAuto{background:linear-gradient(135deg,#171311 0 48%,#f0ebe4 52% 100%)}
   .colorSingle{width:calc((100% - 30px)/6);flex:0 0 calc((100% - 30px)/6);display:block}
+  .motionBody{gap:11px}
+  .motionEnable{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:3px}
+  .motionEnable input[type=checkbox]{width:14px;height:14px;margin:0;accent-color:var(--accent);cursor:pointer}
+  .motionCtrl{grid-template-columns:minmax(max-content,102px) minmax(0,1fr) 54px 24px;gap:7px}
+  .motionReset{display:flex;justify-content:flex-end;padding-top:3px}
+  .motionResetOne{
+    width:24px;height:24px;padding:0;display:grid;place-items:center;
+    border:1px solid var(--rule);background:transparent;color:var(--graphite);
+    cursor:pointer;border-radius:0
+  }
+  .motionResetOne:hover{border-color:var(--accent);color:var(--accent)}
+  .motionResetOne svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .envBody{gap:0}
   .envItem{display:flex;flex-direction:column;gap:10px;padding:14px 0;border-top:1px solid var(--rule)}
   .envItem:first-child{border-top:0;padding-top:0}
@@ -177,8 +217,22 @@
   #panel{gap:0}
 
 
-  button:focus-visible,.sw:focus-visible,.themeToggle button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  button:focus-visible,.sw:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   button{-webkit-tap-highlight-color:transparent}
+
+  #uiTooltip{
+    position:fixed;left:0;top:0;z-index:9999;max-width:260px;
+    padding:7px 9px;border:1px solid var(--rule-mid);
+    background:var(--ink);color:var(--paper);
+    font-size:10px;line-height:1.35;font-weight:400;letter-spacing:.01em;
+    pointer-events:none;opacity:0;visibility:hidden;
+    transform:translateY(2px);
+    transition:opacity .10s ease,transform .10s ease,visibility 0s linear .10s
+  }
+  #uiTooltip.show{
+    opacity:1;visibility:visible;transform:none;
+    transition:opacity .10s ease,transform .10s ease
+  }
 
   .fadein{opacity:0;transform:translateY(6px);transition:opacity .7s ease,transform .7s ease}
   body.ready .fadein{opacity:1;transform:none}
@@ -194,7 +248,11 @@
     :root{--pad:16px}
     header{height:auto;min-height:61.5px;flex-wrap:wrap;gap:0;padding:0 var(--pad) 11px}
     #mark{margin-top:10px;margin-bottom:10px}
-    .themeToggle{margin-left:auto}
+    .helpBtn{margin-left:auto}
+    .themeToggle{margin-left:8px}
+    .helpBody{grid-template-columns:1fr}
+    .helpBody section,.helpBody section:nth-child(odd),.helpBody section:nth-child(even){padding:14px 0;border-left:0;border-bottom:1px solid var(--rule)}
+    .helpBody section:last-child{border-bottom:0}
     .topTools{order:4;width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding-top:2px}
     .topActions{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;margin-top:-1px}
     .topAction{width:100%;height:30px}
@@ -258,6 +316,8 @@
     </div>
   </div>
 
+  <button class="helpBtn fadein" id="btnHelp" type="button" aria-label="Open tool help">?</button>
+
   <label class="themeToggle fadein" aria-label="Light or dark mode" title="Light / dark mode">
     <input id="themeToggle" type="checkbox" role="switch" aria-label="Dark mode">
     <span class="themeTrack" aria-hidden="true">
@@ -293,10 +353,10 @@
           <details class="adjustFold" data-adjust="chest">
             <summary>Placement &amp; transform</summary>
             <div class="adjustBody artadjust">
-              <div class="ctrl"><label for="chestX">Move left/right</label><input id="chestX" data-art-range="chest" data-prop="x" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="chest" data-prop="x" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Front graphic move left and right value"></div>
-              <div class="ctrl"><label for="chestY">Move up/down</label><input id="chestY" data-art-range="chest" data-prop="y" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="chest" data-prop="y" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Front graphic move up and down value"></div>
-              <div class="ctrl"><label for="chestScale">Scale</label><input id="chestScale" data-art-range="chest" data-prop="scale" type="range" min="25" max="200" step="1" value="100"><input class="num" data-art-num="chest" data-prop="scale" type="number" min="25" max="200" step="1" value="100" inputmode="numeric" aria-label="Front graphic scale value"></div>
-              <div class="ctrl"><label for="chestRot">Rotate</label><input id="chestRot" data-art-range="chest" data-prop="rot" type="range" min="-180" max="180" step="1" value="0"><input class="num" data-art-num="chest" data-prop="rot" type="number" min="-180" max="180" step="1" value="0" inputmode="numeric" aria-label="Front graphic rotation value"></div>
+              <div class="ctrl hasReset"><label for="chestX">Move left/right</label><input id="chestX" data-art-range="chest" data-prop="x" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="chest" data-prop="x" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Front graphic move left and right value"><button class="motionResetOne" type="button" data-reset-art-one="chest:x" aria-label="Reset Move left/right to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
+              <div class="ctrl hasReset"><label for="chestY">Move up/down</label><input id="chestY" data-art-range="chest" data-prop="y" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="chest" data-prop="y" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Front graphic move up and down value"><button class="motionResetOne" type="button" data-reset-art-one="chest:y" aria-label="Reset Move up/down to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
+              <div class="ctrl hasReset"><label for="chestScale">Scale</label><input id="chestScale" data-art-range="chest" data-prop="scale" type="range" min="25" max="200" step="1" value="100"><input class="num" data-art-num="chest" data-prop="scale" type="number" min="25" max="200" step="1" value="100" inputmode="numeric" aria-label="Front graphic scale value"><button class="motionResetOne" type="button" data-reset-art-one="chest:scale" aria-label="Reset Scale to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
+              <div class="ctrl hasReset"><label for="chestRot">Rotate</label><input id="chestRot" data-art-range="chest" data-prop="rot" type="range" min="-180" max="180" step="1" value="0"><input class="num" data-art-num="chest" data-prop="rot" type="number" min="-180" max="180" step="1" value="0" inputmode="numeric" aria-label="Front graphic rotation value"><button class="motionResetOne" type="button" data-reset-art-one="chest:rot" aria-label="Reset Rotate to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
               <div class="adjustReset"><button class="link" type="button" data-reset-art="chest">Reset placement</button></div>
             </div>
           </details>
@@ -311,10 +371,10 @@
           <details class="adjustFold" data-adjust="back">
             <summary>Placement &amp; transform</summary>
             <div class="adjustBody artadjust">
-              <div class="ctrl"><label for="backX">Move left/right</label><input id="backX" data-art-range="back" data-prop="x" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="back" data-prop="x" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Back graphic move left and right value"></div>
-              <div class="ctrl"><label for="backY">Move up/down</label><input id="backY" data-art-range="back" data-prop="y" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="back" data-prop="y" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Back graphic move up and down value"></div>
-              <div class="ctrl"><label for="backScale">Scale</label><input id="backScale" data-art-range="back" data-prop="scale" type="range" min="25" max="200" step="1" value="100"><input class="num" data-art-num="back" data-prop="scale" type="number" min="25" max="200" step="1" value="100" inputmode="numeric" aria-label="Back graphic scale value"></div>
-              <div class="ctrl"><label for="backRot">Rotate</label><input id="backRot" data-art-range="back" data-prop="rot" type="range" min="-180" max="180" step="1" value="0"><input class="num" data-art-num="back" data-prop="rot" type="number" min="-180" max="180" step="1" value="0" inputmode="numeric" aria-label="Back graphic rotation value"></div>
+              <div class="ctrl hasReset"><label for="backX">Move left/right</label><input id="backX" data-art-range="back" data-prop="x" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="back" data-prop="x" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Back graphic move left and right value"><button class="motionResetOne" type="button" data-reset-art-one="back:x" aria-label="Reset Move left/right to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
+              <div class="ctrl hasReset"><label for="backY">Move up/down</label><input id="backY" data-art-range="back" data-prop="y" type="range" min="-100" max="100" step="1" value="0"><input class="num" data-art-num="back" data-prop="y" type="number" min="-100" max="100" step="1" value="0" inputmode="numeric" aria-label="Back graphic move up and down value"><button class="motionResetOne" type="button" data-reset-art-one="back:y" aria-label="Reset Move up/down to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
+              <div class="ctrl hasReset"><label for="backScale">Scale</label><input id="backScale" data-art-range="back" data-prop="scale" type="range" min="25" max="200" step="1" value="100"><input class="num" data-art-num="back" data-prop="scale" type="number" min="25" max="200" step="1" value="100" inputmode="numeric" aria-label="Back graphic scale value"><button class="motionResetOne" type="button" data-reset-art-one="back:scale" aria-label="Reset Scale to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
+              <div class="ctrl hasReset"><label for="backRot">Rotate</label><input id="backRot" data-art-range="back" data-prop="rot" type="range" min="-180" max="180" step="1" value="0"><input class="num" data-art-num="back" data-prop="rot" type="number" min="-180" max="180" step="1" value="0" inputmode="numeric" aria-label="Back graphic rotation value"><button class="motionResetOne" type="button" data-reset-art-one="back:rot" aria-label="Reset Rotate to default" data-tip="Reset this control to its default value."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
               <div class="adjustReset"><button class="link" type="button" data-reset-art="back">Reset placement</button></div>
             </div>
           </details>
@@ -344,10 +404,11 @@
 
           <div class="subsec">
             <div class="grphd"><span class="lbl">Artwork Roughness</span><span class="lbl" id="artRoughnessName">97</span></div>
-            <div class="finishCtrl">
+            <div class="finishCtrl hasReset">
               <span class="finishEnd">Glossy</span>
               <input id="artRoughness" type="range" min="0" max="100" step="1" value="97" aria-label="Artwork roughness, zero glossy and one hundred rough">
               <span class="finishEnd">Rough</span>
+              <button class="motionResetOne" id="resetArtRoughness" type="button" aria-label="Reset Artwork Roughness to default" data-tip="Reset Artwork Roughness to its default value (97)."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
             </div>
           </div>
         </div>
@@ -364,8 +425,8 @@
 
         <div class="envItem">
           <div class="gridHead"><span class="lbl">Pattern Paper Grid</span><input id="dotGrid" type="checkbox" aria-label="Pattern paper grid" checked></div>
-          <div class="ctrl"><label for="gridScale">Grid scale</label><input id="gridScale" type="range" min="50" max="175" step="1" value="65" aria-label="Grid scale"><input class="num" id="gridScaleNum" type="number" min="50" max="175" step="1" value="65" inputmode="numeric" aria-label="Grid scale value"></div>
-          <div class="ctrl"><label for="gridCharSize">Character size</label><input id="gridCharSize" type="range" min="35" max="160" step="1" value="75" aria-label="Character size"><input class="num" id="gridCharSizeNum" type="number" min="35" max="160" step="1" value="75" inputmode="numeric" aria-label="Character size value"></div>
+          <div class="ctrl hasReset"><label for="gridScale">Grid scale</label><input id="gridScale" type="range" min="30" max="175" step="1" value="35" aria-label="Grid scale"><input class="num" id="gridScaleNum" type="number" min="30" max="175" step="1" value="35" inputmode="numeric" aria-label="Grid scale value"><button class="motionResetOne" id="resetGridScale" type="button" aria-label="Reset Grid scale to default" data-tip="Reset Grid scale to its default value (35)."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
+          <div class="ctrl hasReset"><label for="gridCharSize">Character size</label><input id="gridCharSize" type="range" min="30" max="160" step="1" value="45" aria-label="Character size"><input class="num" id="gridCharSizeNum" type="number" min="30" max="160" step="1" value="45" inputmode="numeric" aria-label="Character size value"><button class="motionResetOne" id="resetGridCharSize" type="button" aria-label="Reset Character size to default" data-tip="Reset Character size to its default value (45)."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button></div>
         </div>
 
         <div class="envItem">
@@ -375,8 +436,131 @@
         </div>
       </div>
     </details>
+
+    <details class="sectionFold fadein" open hidden>
+      <summary>Fabric Motion</summary>
+      <div class="sectionBody motionBody">
+        <div class="motionEnable">
+          <span class="lbl">Rotation Inertia</span>
+          <input id="inertiaEnabled" type="checkbox" checked aria-label="Rotation inertia enabled">
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaStrength">Strength</label>
+          <input id="inertiaStrength" type="range" min="0" max="15" step="0.25" value="15">
+          <input class="num" id="inertiaStrengthNum" type="number" min="0" max="15" step="0.25" value="15" inputmode="decimal" aria-label="Inertia strength in degrees">
+          <button class="motionResetOne" type="button" data-reset-motion="strength" aria-label="Reset Strength to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaRamp">Ramp delay</label>
+          <input id="inertiaRamp" type="range" min="15" max="300" step="5" value="100">
+          <input class="num" id="inertiaRampNum" type="number" min="15" max="300" step="5" value="100" inputmode="numeric" aria-label="Inertia ramp delay in milliseconds">
+          <button class="motionResetOne" type="button" data-reset-motion="ramp" aria-label="Reset Ramp delay to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaSettle">Settle time</label>
+          <input id="inertiaSettle" type="range" min="0.20" max="2.50" step="0.05" value="0.5">
+          <input class="num" id="inertiaSettleNum" type="number" min="0.20" max="2.50" step="0.05" value="0.5" inputmode="decimal" aria-label="Inertia settle time in seconds">
+          <button class="motionResetOne" type="button" data-reset-motion="settle" aria-label="Reset Settle time to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaElasticity">Elasticity</label>
+          <input id="inertiaElasticity" type="range" min="10" max="100" step="1" value="60">
+          <input class="num" id="inertiaElasticityNum" type="number" min="10" max="100" step="1" value="60" inputmode="numeric" aria-label="Fabric inertia elasticity">
+          <button class="motionResetOne" type="button" data-reset-motion="elasticity" aria-label="Reset Elasticity to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaOvershoot">Overshoot</label>
+          <input id="inertiaOvershoot" type="range" min="0" max="100" step="1" value="70">
+          <input class="num" id="inertiaOvershootNum" type="number" min="0" max="100" step="1" value="70" inputmode="numeric" aria-label="Fabric inertia overshoot amount">
+          <button class="motionResetOne" type="button" data-reset-motion="overshoot" aria-label="Reset Overshoot to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaRelease">Release momentum</label>
+          <input id="inertiaRelease" type="range" min="0" max="150" step="1" value="70">
+          <input class="num" id="inertiaReleaseNum" type="number" min="0" max="150" step="1" value="70" inputmode="numeric" aria-label="Fabric release momentum">
+          <button class="motionResetOne" type="button" data-reset-motion="release" aria-label="Reset Release momentum to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaSensitivity">Sensitivity</label>
+          <input id="inertiaSensitivity" type="range" min="0" max="100" step="1" value="50">
+          <input class="num" id="inertiaSensitivityNum" type="number" min="0" max="100" step="1" value="50" inputmode="numeric" aria-label="Rotation inertia sensitivity">
+          <button class="motionResetOne" type="button" data-reset-motion="sensitivity" aria-label="Reset Sensitivity to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaBias">Lower-body bias</label>
+          <input id="inertiaBias" type="range" min="0" max="100" step="1" value="25">
+          <input class="num" id="inertiaBiasNum" type="number" min="0" max="100" step="1" value="25" inputmode="numeric" aria-label="Lower body motion bias">
+          <button class="motionResetOne" type="button" data-reset-motion="bias" aria-label="Reset Lower-body bias to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaSleeve">Sleeve drag</label>
+          <input id="inertiaSleeve" type="range" min="0" max="100" step="1" value="100">
+          <input class="num" id="inertiaSleeveNum" type="number" min="0" max="100" step="1" value="100" inputmode="numeric" aria-label="Sleeve drag amount">
+          <button class="motionResetOne" type="button" data-reset-motion="sleeve" aria-label="Reset Sleeve drag to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="ctrl motionCtrl">
+          <label for="inertiaArc">Sleeve arc</label>
+          <input id="inertiaArc" type="range" min="0" max="100" step="1" value="100">
+          <input class="num" id="inertiaArcNum" type="number" min="0" max="100" step="1" value="100" inputmode="numeric" aria-label="Sleeve shoulder-pivot arc amount">
+          <button class="motionResetOne" type="button" data-reset-motion="arc" aria-label="Reset Sleeve arc to default"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5V4.5h4"></path><path d="M5.2 7.1A8 8 0 1 1 4.4 14"></path></svg></button>
+        </div>
+
+        <div class="motionReset">
+          <button class="link" id="resetInertia" type="button">Reset motion</button>
+        </div>
+      </div>
+    </details>
   </aside>
 </main>
+
+<dialog id="helpDialog" aria-labelledby="helpTitle">
+  <div class="helpHead">
+    <div>
+      <span class="helpEyebrow">Quick guide</span>
+      <h2 id="helpTitle">Kinship Garment Preview</h2>
+    </div>
+    <button class="helpClose" id="helpClose" type="button" aria-label="Close help">×</button>
+  </div>
+  <div class="helpBody">
+    <section>
+      <h3>Preview</h3>
+      <p>Drag directly on the shirt to rotate around it. Scroll or pinch to zoom. Faster manual rotation can load Fabric Motion inertia.</p>
+    </section>
+    <section>
+      <h3>Artwork</h3>
+      <p>Upload or clear the left-chest and back graphics, then expand Placement &amp; Transform to move, scale, or rotate each graphic independently.</p>
+    </section>
+    <section>
+      <h3>Appearance</h3>
+      <p>Choose shirt and artwork colors, use the eyedropper swatches for custom colors, and adjust Artwork Roughness without changing the shirt material.</p>
+    </section>
+    <section>
+      <h3>Environment</h3>
+      <p>Change the background, pattern-paper grid, and 3D shirt model. Camera, Lighting, and Wind presets are available in the top toolbar.</p>
+    </section>
+    <section>
+      <h3>Fabric Motion</h3>
+      <p>Rotation Inertia loads lag while you rotate, then releases when you let go. Strength controls amount, Ramp Delay controls loading, and Settle / Elasticity / Overshoot / Release Momentum shape the catch-up and fading swing.</p>
+      <p>Lower-body Bias keeps the upper shirt anchored. Sleeve Drag increases sleeve lag. Sleeve Arc changes how much the sleeves swing around their shoulder pivot instead of translating straight forward.</p>
+    </section>
+    <section>
+      <h3>Top toolbar</h3>
+      <p>Camera 1–3 selects view angles. Lighting 1–3 changes studio light direction and contrast. Wind 1–3 changes continuous breeze. Present hides the interface and Save Image exports the current preview.</p>
+    </section>
+  </div>
+</dialog>
+
+<div id="uiTooltip" role="tooltip" aria-hidden="true"></div>
 <input type="file" id="file" accept="image/*" hidden>
 <input type="file" id="fileModel" accept=".glb,.gltf,model/gltf-binary,model/gltf+json" hidden>
 
@@ -682,7 +866,8 @@ normalTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
 /* ============================ fabric material ============================ */
 
 const uni = {
-  uTime:{value:0}, uWind:{value:0.011},
+  uTime:{value:0}, uWind:{value:0.011}, uTwist:{value:0},
+  uTwistFlowPower:{value:1.0}, uSleeveBoost:{value:0.20}, uSleeveArc:{value:0.65},
   uDir:{value:new THREE.Vector3(0.85,0,0.53).normalize()},
   uInkA:{value:null}, uInkB:{value:null},
   uRectA:{value:new THREE.Vector4(0,0,1,1)},
@@ -699,10 +884,12 @@ const uni = {
 };
 
 const VERT_HEAD=`
-  uniform float uTime; uniform float uWind; uniform vec3 uDir;
+  uniform float uTime; uniform float uWind; uniform float uTwist;
+  uniform float uTwistFlowPower; uniform float uSleeveBoost; uniform float uSleeveArc; uniform vec3 uDir;
   attribute float aFlow;
   varying vec3 vObj; varying vec3 vObjN; varying vec2 vPrintUv;
   vec3 gDisp;
+
   vec3 kBreeze(vec3 p, float flow){
     if (flow < 0.001) return vec3(0.0);
     float t = uTime;
@@ -714,6 +901,54 @@ const VERT_HEAD=`
     o.y += w3*0.13*a;
     o += normalize(vec3(p.x,0.0,p.z)+vec3(1e-4))*((w2*0.30 + w3*0.22)*a);
     return o;
+  }
+
+  // Rotational lag around the garment's vertical axis.
+  // The torso uses a broad twist; sleeve vertices can instead arc around a
+  // local shoulder pivot so the cuff follows a curved path and preserves volume.
+  vec3 kInertia(vec3 p, float flow){
+    if (flow < 0.001 || abs(uTwist) < 0.00001) return vec3(0.0);
+
+    float f = flow * flow * (3.0 - 2.0 * flow);
+    f = pow(max(f, 0.0001), uTwistFlowPower);
+
+    // Restrict the sleeve treatment to wide, upper vertices.
+    float sleeveX = smoothstep(0.16, 0.31, abs(p.x));
+    float sleeveY = smoothstep(0.20, 0.42, p.y);
+    float sleeve = sleeveX * sleeveY;
+
+    float torsoA = uTwist * f;
+    float globalA = torsoA * (1.0 + sleeve * uSleeveBoost);
+
+    // Standard garment-wide twist around center.
+    float cg = cos(globalA), sg = sin(globalA);
+    vec3 qGlobal = p;
+    qGlobal.x = cg*p.x + sg*p.z;
+    qGlobal.z = -sg*p.x + cg*p.z;
+
+    // Sleeve-specific rigid arc around an approximate shoulder root.
+    // The local rotation preserves the sleeve's radius/volume instead of
+    // pushing all cuff vertices straight ahead on the global axis.
+    float side = p.x < 0.0 ? -1.0 : 1.0;
+    vec3 pivot = vec3(side*0.145, 0.48, 0.0);
+    vec3 local = p - pivot;
+
+    // Arc increases the sleeve's local swing as well as how strongly we blend
+    // from global twist to shoulder-pivot motion.
+    float localA = torsoA * (1.0 + sleeve*(uSleeveBoost + uSleeveArc*0.90));
+    float cl = cos(localA), sl = sin(localA);
+    vec3 localRot = local;
+    localRot.x = cl*local.x + sl*local.z;
+    localRot.z = -sl*local.x + cl*local.z;
+    vec3 qSleeve = pivot + localRot;
+
+    float arcBlend = sleeve * uSleeveArc;
+    vec3 q = mix(qGlobal, qSleeve, arcBlend);
+    return q-p;
+  }
+
+  vec3 kFabricDisp(vec3 p, float flow){
+    return kBreeze(p, flow) + kInertia(p, flow);
   }
 `;
 
@@ -797,6 +1032,12 @@ const FRAG_PRINT=`
         }
       }
     }
+
+    // Keep the shirt interior slightly darker than the exterior so it reads
+    // as an inward-facing surface instead of being lit as brightly as the outside.
+    if (!gl_FrontFacing) {
+      diffuseColor.rgb *= 0.60;
+    }
   }
 `;
 
@@ -808,14 +1049,14 @@ function patchFabricMaterial(mat){
     sh.vertexShader = sh.vertexShader.replace('#include <beginnormal_vertex>',
       `#include <beginnormal_vertex>
        vObj = position; vObjN = normal; vPrintUv = uv;
-       gDisp = kBreeze(position, aFlow);
+       gDisp = kFabricDisp(position, aFlow);
        if (aFlow > 0.001) {
          vec3 T1 = normalize(cross(objectNormal, vec3(0.0,1.0,0.0)) + vec3(1e-5));
          vec3 T2 = normalize(cross(objectNormal, T1));
          float e = 0.022;
          vec3 p0 = position + gDisp;
-         vec3 pa = position + T1*e + kBreeze(position + T1*e, aFlow);
-         vec3 pb = position + T2*e + kBreeze(position + T2*e, aFlow);
+         vec3 pa = position + T1*e + kFabricDisp(position + T1*e, aFlow);
+         vec3 pb = position + T2*e + kFabricDisp(position + T2*e, aFlow);
          vec3 nn = normalize(cross(pa-p0, pb-p0));
          objectNormal = dot(nn, objectNormal) < 0.0 ? -nn : nn;
        }`);
@@ -827,7 +1068,7 @@ function patchFabricMaterial(mat){
     sh.fragmentShader = sh.fragmentShader.replace('#include <roughnessmap_fragment>',
       '#include <roughnessmap_fragment>\n roughnessFactor = mix(roughnessFactor, clamp(uArtRough, 0.02, 1.0), clamp(kArtworkMask, 0.0, 1.0));');
   };
-  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v5-art-roughness';
+  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v9-inner-shade';
   mat.needsUpdate=true;
   return mat;
 }
@@ -1020,7 +1261,8 @@ const THEMES={
   light:{bg:'#EFE8E1'},
   dark:{bg:'#2B1B18'},
 };
-const state={ theme:'light', blank:0, garmentCustom:'#D8D2C7', ink:'auto', inkCustom:'#171311', artRoughness:97, shirtColorsCustomized:false, bg:THEMES.light.bg, dotGrid:true, gridScale:65, gridCharSize:75, light:'soft', wind:1, view:'angle',
+const state={ theme:'light', blank:0, garmentCustom:'#D8D2C7', ink:'auto', inkCustom:'#171311', artRoughness:97, shirtColorsCustomized:false, bg:THEMES.light.bg, dotGrid:true, gridScale:35, gridCharSize:45, light:'soft', wind:1, view:'angle',
+  inertia:{enabled:true,strength:15,ramp:100,settle:0.5,elasticity:60,overshoot:70,release:70,sensitivity:50,bias:25,sleeve:100,arc:100},
   az:0.62, el:1.30, r:1.55, taz:0.62, tel:1.30, tr:1.55, present:false };
 const WIND_LEVELS=[0,0.011,0.024];
 
@@ -1084,7 +1326,7 @@ function drawPatternMark(x,y,kind,val,size){
     patternCtx.arc(0,0,Math.max(1,size*0.08),0,Math.PI*2);
     patternCtx.fill();
   }else if(kind==='text'){
-    patternCtx.font=`500 ${Math.max(8,size)}px Rubik, sans-serif`;
+    patternCtx.font=`500 ${Math.max(3,size)}px Rubik, sans-serif`;
     patternCtx.textAlign='center';
     patternCtx.textBaseline='middle';
     patternCtx.fillText(val,0,0);
@@ -1107,7 +1349,7 @@ function drawPatternBackground(){
   const mobileGridFactor = w <= 820 ? 0.72 : 1;
   const spacing=128*(state.gridScale/100)*mobileGridFactor;
   const charSize=13*(state.gridCharSize/100);
-  const markSize=Math.max(6, charSize*0.95);
+  const markSize=Math.max(3, charSize*0.95);
   const cx=w*0.5, cy=h*0.5;
   const colCount=Math.ceil(w/spacing)+3;
   const rowCount=Math.ceil(h/spacing)+3;
@@ -1258,6 +1500,11 @@ function bindArtControl(slot, prop){
 
 [['chest','x'],['chest','y'],['chest','scale'],['chest','rot'],['back','x'],['back','y'],['back','scale'],['back','rot']]
   .forEach(([slot,prop])=>bindArtControl(slot,prop));
+
+document.querySelectorAll('[data-reset-art-one]').forEach(btn=>{
+  const [slot,prop]=btn.dataset.resetArtOne.split(':');
+  btn.addEventListener('click',()=>applyArtValue(slot,prop,artDefault(slot,prop)));
+});
 ['chest','back'].forEach(slot=>['x','y','scale','rot'].forEach(prop=>applyArtValue(slot, prop, artDefault(slot, prop))));
 
 document.querySelectorAll('[data-reset-art]').forEach(btn=>btn.addEventListener('click',()=>{
@@ -1270,18 +1517,54 @@ document.querySelectorAll('[data-reset-art]').forEach(btn=>btn.addEventListener(
 /* =============================== controls =============================== */
 
 let dragging=false,lastX=0,lastY=0,pinch=0;
+let orbitInputVelocity=0;
+let lastOrbitInputTime=performance.now();
+
 canvas.addEventListener('pointerdown',e=>{
   dragging=true; lastX=e.clientX; lastY=e.clientY;
+  orbitInputVelocity=0;
+  inertiaInput=0;
+  inertiaVelocity=0;
+  inertiaReleaseKick=0;
+  inertiaLoadTarget=inertiaTwist;
+  inertiaLastMotionVelocity=0;
+  lastOrbitInputTime=performance.now();
   canvas.setPointerCapture(e.pointerId); canvas.classList.add('drag');
   if(state.present) exitPresent();
 });
 canvas.addEventListener('pointermove',e=>{
   if(!dragging) return;
-  state.taz-=(e.clientX-lastX)*0.008;
+  const now=performance.now();
+  const dx=e.clientX-lastX;
+  const sampleDt=Math.max(0.008,Math.min(0.08,(now-lastOrbitInputTime)/1000));
+  const dAz=-dx*0.008;
+  state.taz+=dAz;
   state.tel=clamp(state.tel-(e.clientY-lastY)*0.006,0.55,2.05);
+
+  // Raw manual orbit speed in radians/second. A short low-pass happens
+  // in the animation loop before this becomes fabric motion.
+  orbitInputVelocity=clamp(dAz/sampleDt,-6.0,6.0);
+  if(Math.abs(orbitInputVelocity)>0.03) inertiaLastMotionVelocity=orbitInputVelocity;
+  lastOrbitInputTime=now;
   lastX=e.clientX; lastY=e.clientY; setView(null);
 });
-addEventListener('pointerup',()=>{ dragging=false; canvas.classList.remove('drag'); });
+function endOrbitDrag(){
+  if(dragging){
+    // The shirt has been "loaded" in the lag direction while held.
+    // On release, inject momentum toward neutral so it catches up, crosses
+    // through, then oscillates with the Overshoot / Settle controls.
+    const releaseAmt=state.inertia.release/100;
+    const loadKick=-inertiaTwist * (4.0 + 4.0*releaseAmt) * releaseAmt;
+    const speedKick=-inertiaLastMotionVelocity * 0.010 * releaseAmt;
+    inertiaReleaseKick=loadKick + speedKick;
+    inertiaLoadTarget=0;
+  }
+  dragging=false;
+  orbitInputVelocity=0;
+  canvas.classList.remove('drag');
+}
+addEventListener('pointerup',endOrbitDrag);
+addEventListener('pointercancel',endOrbitDrag);
 canvas.addEventListener('wheel',e=>{
   e.preventDefault(); state.tr=clamp(state.tr+e.deltaY*0.0012,0.72,2.6);
 },{passive:false});
@@ -1322,7 +1605,8 @@ function renderGarmentSwatches(){
     const b=document.createElement('button');
     b.className='sw'; b.type='button'; b.role='radio';
     b.setAttribute('aria-checked',String(state.blank===i));
-    b.setAttribute('aria-label',g.name); b.title=g.name;
+    b.setAttribute('aria-label',g.name);
+    b.dataset.tip=`Set the shirt color to ${g.name}.`;
     b.innerHTML=`<i style="background:${g.hex}"></i>`;
     b.onclick=()=>{
       state.shirtColorsCustomized=true;
@@ -1338,7 +1622,7 @@ function renderGarmentSwatches(){
   custom.role='radio';
   custom.setAttribute('aria-checked',String(state.blank==='custom'));
   custom.setAttribute('aria-label','Custom garment colour');
-  custom.title='Custom garment colour';
+  custom.dataset.tip='Choose a custom shirt color with the system color picker.';
   custom.innerHTML=`<i style="background:${state.garmentCustom}"></i><span class="pickerGlyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m19 3 2 2-8.5 8.5-3-3z"></path><path d="m8.8 11.2-4.3 4.3v4h4l4.3-4.3"></path></svg></span><input type="color" value="${state.garmentCustom}" aria-label="Custom garment colour">`;
   const picker=custom.querySelector('input');
   const activateCustom=()=>{
@@ -1362,6 +1646,188 @@ function renderGarmentSwatches(){
   sw.appendChild(custom);
 }
 renderGarmentSwatches();
+
+/* ============================ utilitarian tooltips ============================ */
+const uiTooltip=document.getElementById('uiTooltip');
+let tooltipTimer=0;
+let tooltipTarget=null;
+
+function setTip(selector,text){
+  document.querySelectorAll(selector).forEach(el=>{
+    el.dataset.tip=text;
+    // Prevent a second native tooltip from appearing on top of the custom one.
+    if(el.hasAttribute('title')) el.removeAttribute('title');
+  });
+}
+function setControlTip(id,text,alsoNumberId=null){
+  setTip(`#${id}`,text);
+  setTip(`label[for="${id}"]`,text);
+  if(alsoNumberId) setTip(`#${alsoNumberId}`,text);
+}
+
+const staticTips=[
+  ['#segView button[data-v="front"]','Camera 1: move to a straight front view.'],
+  ['#segView button[data-v="angle"]','Camera 2: move to the default three-quarter view.'],
+  ['#segView button[data-v="back"]','Camera 3: move to a straight back view.'],
+
+  ['#segLight button[data-v="soft"]','Lighting 1: broad soft studio light with the flattest, most even result.'],
+  ['#segLight button[data-v="key"]','Lighting 2: stronger directional key light for more form and contrast.'],
+  ['#segLight button[data-v="rim"]','Lighting 3: studio setup with stronger edge separation and directional contrast.'],
+
+  ['#segWind button[data-v="0"]','Wind 1: no continuous breeze deformation. Rotation inertia can still move the shirt.'],
+  ['#segWind button[data-v="1"]','Wind 2: gentle continuous fabric movement.'],
+  ['#segWind button[data-v="2"]','Wind 3: stronger continuous fabric movement.'],
+
+  ['#btnPresent','Hide the interface and show only the garment preview. Interact with the preview to return.'],
+  ['#btnSave','Export the current garment preview as an image.'],
+  ['#btnHelp','Open a quick guide to the garment preview controls.'],
+  ['.themeToggle','Switch the interface between light and dark mode. If shirt colors have not been changed manually, the shirt and artwork follow the theme.'],
+
+  ['[data-art-action="chest"]','Upload a left-chest image when empty, or clear the current left-chest artwork when an image is loaded.'],
+  ['[data-art-action="back"]','Upload a full-back image when empty, or clear the current back artwork when an image is loaded.'],
+  ['[data-reset-art="chest"]','Restore the left-chest artwork to its default placement, scale, and rotation.'],
+  ['[data-reset-art="back"]','Restore the back artwork to its default placement, scale, and rotation.'],
+
+  ['#inkSwatches [data-v="auto"]','Automatically use a dark or light artwork color based on the selected shirt color.'],
+  ['#inkSwatches [data-v="dark"]','Set artwork color to Faded Black (#171311).'],
+  ['#inkSwatches [data-v="light"]','Set artwork color to Chalk.'],
+  ['#inkSwatches [data-v="blue"]','Set artwork color to Kinship blue (#5189db).'],
+  ['#inkSwatches [data-v="cream"]','Set artwork color to pale cream (#fff1bd).'],
+  ['#customInkChoice','Choose a custom artwork color with the system color picker.'],
+  ['#bgCustom','Choose the preview background color.'],
+  ['#bgCustom + *','Choose the preview background color.'],
+  ['.colorSingle','Choose the preview background color.'],
+
+  ['#dotGrid','Show or hide the pattern-paper grid behind the shirt.'],
+  ['#btnModel','Replace the current shirt geometry with a .glb or .gltf model.'],
+  ['#btnFlip','Rotate the imported 3D model 180° if it loads facing the wrong direction.'],
+
+  ['#inertiaEnabled','Enable or disable rotation-driven fabric inertia. The Wind control remains separate.'],
+  ['#resetInertia','Restore all Fabric Motion controls to their default values.']
+];
+staticTips.forEach(([selector,tip])=>setTip(selector,tip));
+
+setControlTip('chestX','Move the left-chest artwork horizontally across the shirt surface.','chestX');
+setTip('[data-art-num="chest"][data-prop="x"]','Move the left-chest artwork horizontally across the shirt surface.');
+setControlTip('chestY','Move the left-chest artwork vertically across the shirt surface.');
+setTip('[data-art-num="chest"][data-prop="y"]','Move the left-chest artwork vertically across the shirt surface.');
+setControlTip('chestScale','Resize the left-chest artwork. 100 is the default scale.');
+setTip('[data-art-num="chest"][data-prop="scale"]','Resize the left-chest artwork. 100 is the default scale.');
+setControlTip('chestRot','Rotate the left-chest artwork in degrees.');
+setTip('[data-art-num="chest"][data-prop="rot"]','Rotate the left-chest artwork in degrees.');
+
+setControlTip('backX','Move the back artwork horizontally across the shirt surface.');
+setTip('[data-art-num="back"][data-prop="x"]','Move the back artwork horizontally across the shirt surface.');
+setControlTip('backY','Move the back artwork vertically across the shirt surface.');
+setTip('[data-art-num="back"][data-prop="y"]','Move the back artwork vertically across the shirt surface.');
+setControlTip('backScale','Resize the back artwork. 100 is the default scale.');
+setTip('[data-art-num="back"][data-prop="scale"]','Resize the back artwork. 100 is the default scale.');
+setControlTip('backRot','Rotate the back artwork in degrees.');
+setTip('[data-art-num="back"][data-prop="rot"]','Rotate the back artwork in degrees.');
+
+setControlTip('artRoughness','Change only the artwork surface finish. Left is glossier; right is rougher. The shirt material is not changed.');
+setControlTip('gridScale','Change the spacing between pattern-paper grid intersections. Smaller values make a tighter grid.','gridScaleNum');
+setControlTip('gridCharSize','Change the size of grid letters, numbers, and symbols without changing grid spacing.','gridCharSizeNum');
+
+setControlTip('inertiaStrength','Maximum amount of lag that can load into the loosest fabric while you rotate. Higher values allow a larger stored twist before release.','inertiaStrengthNum');
+setControlTip('inertiaRamp','How slowly the lag loads while you are actively rotating. Higher values keep the lower shirt and sleeves behind for longer before they build toward the maximum lag.','inertiaRampNum');
+setControlTip('inertiaSettle','How long the release motion takes to fade after you let go. Higher values make the catch-up and pendulum settling last longer.','inertiaSettleNum');
+setControlTip('inertiaElasticity','Spring stiffness after release. Higher values make the shirt catch up and reverse direction more quickly, creating tighter oscillations.','inertiaElasticityNum');
+setControlTip('inertiaOvershoot','Controls damping only after release. Higher values let the shirt cross its rest position more times before the pendulum motion fades.','inertiaOvershootNum');
+setControlTip('inertiaRelease','How strongly the loaded fabric is kicked toward neutral when you let go. Higher values create a stronger first catch-up and swing-through.','inertiaReleaseNum');
+setControlTip('inertiaSensitivity','How easily manual rotation loads the lag effect. Higher values respond to slower and smaller cursor rotations.','inertiaSensitivityNum');
+setControlTip('inertiaBias','Concentrates the loaded lag toward the lower torso and hem. Higher values keep the upper shirt more anchored while the bottom trails behind.','inertiaBiasNum');
+setControlTip('inertiaSleeve','Adds extra trailing lag to the sleeves and cuffs relative to the torso. Sleeves now drag behind the apparent shirt rotation rather than leading it.','inertiaSleeveNum');
+setControlTip('inertiaArc','Blends sleeve motion from the garment-wide twist to a local shoulder-pivot arc. Higher values make cuffs swing inward on a curved path and preserve more sleeve volume at the peak.','inertiaArcNum');
+
+// Section headers and artwork transform disclosures.
+document.querySelectorAll('.sectionFold>summary').forEach(summary=>{
+  const name=summary.textContent.trim();
+  summary.dataset.tip=`Show or hide the ${name} controls.`;
+});
+document.querySelectorAll('.adjustFold>summary').forEach(summary=>{
+  summary.dataset.tip='Show or hide placement, scale, and rotation controls for this artwork.';
+});
+
+// Preview itself.
+
+function tooltipSource(node){
+  return node instanceof Element ? node.closest('[data-tip]') : null;
+}
+function positionTooltip(target){
+  const r=target.getBoundingClientRect();
+  const gap=8;
+  const pad=8;
+  const tw=uiTooltip.offsetWidth;
+  const th=uiTooltip.offsetHeight;
+
+  let left=r.left + r.width/2 - tw/2;
+  left=Math.max(pad,Math.min(innerWidth-tw-pad,left));
+
+  let top=r.bottom+gap;
+  if(top+th+pad>innerHeight) top=r.top-th-gap;
+  top=Math.max(pad,top);
+
+  uiTooltip.style.left=`${Math.round(left)}px`;
+  uiTooltip.style.top=`${Math.round(top)}px`;
+}
+function showTooltip(target,immediate=false){
+  clearTimeout(tooltipTimer);
+  tooltipTarget=target;
+  const show=()=>{
+    if(!tooltipTarget || !document.contains(tooltipTarget)) return;
+    uiTooltip.textContent=tooltipTarget.dataset.tip || '';
+    if(!uiTooltip.textContent) return;
+    uiTooltip.setAttribute('aria-hidden','false');
+    uiTooltip.classList.add('show');
+    positionTooltip(tooltipTarget);
+  };
+  if(immediate) show();
+  else tooltipTimer=setTimeout(show,360);
+}
+function hideTooltip(){
+  clearTimeout(tooltipTimer);
+  tooltipTarget=null;
+  uiTooltip.classList.remove('show');
+  uiTooltip.setAttribute('aria-hidden','true');
+}
+document.addEventListener('pointerover',e=>{
+  const target=tooltipSource(e.target);
+  if(!target || target===tooltipTarget) return;
+  showTooltip(target,false);
+});
+document.addEventListener('pointerout',e=>{
+  const target=tooltipSource(e.target);
+  if(!target) return;
+  const next=tooltipSource(e.relatedTarget);
+  if(next===target) return;
+  hideTooltip();
+});
+document.addEventListener('focusin',e=>{
+  const target=tooltipSource(e.target);
+  if(target) showTooltip(target,true);
+});
+document.addEventListener('focusout',e=>{
+  if(tooltipSource(e.target)) hideTooltip();
+});
+document.addEventListener('pointerdown',()=>hideTooltip(),true);
+addEventListener('scroll',hideTooltip,{passive:true});
+addEventListener('resize',hideTooltip);
+
+const helpDialog=document.getElementById('helpDialog');
+const btnHelp=document.getElementById('btnHelp');
+const helpClose=document.getElementById('helpClose');
+
+btnHelp.addEventListener('click',()=>{
+  hideTooltip();
+  if(typeof helpDialog.showModal==='function') helpDialog.showModal();
+  else helpDialog.setAttribute('open','');
+});
+helpClose.addEventListener('click',()=>helpDialog.close());
+helpDialog.addEventListener('click',e=>{
+  if(e.target===helpDialog) helpDialog.close();
+});
+helpDialog.addEventListener('cancel',()=>hideTooltip());
 
 function segment(id,fn){
   const el=document.getElementById(id);
@@ -1415,20 +1881,123 @@ function setArtworkRoughness(raw){
 }
 artRoughness.addEventListener('input',e=>setArtworkRoughness(e.target.value));
 setArtworkRoughness(state.artRoughness);
+
+document.getElementById('resetArtRoughness').addEventListener('click',()=>setArtworkRoughness(97));
+
+const INERTIA_DEFAULTS={enabled:true,strength:15,ramp:100,settle:0.5,elasticity:60,overshoot:70,release:70,sensitivity:50,bias:25,sleeve:100,arc:100};
+
+function inertiaFlowPower(v){
+  const t=clamp(v/100,0,1);
+  return t<=0.5 ? lerp(0.55,1.0,t*2) : lerp(1.0,2.10,(t-0.5)*2);
+}
+function syncInertiaUniformShape(){
+  uni.uTwistFlowPower.value=inertiaFlowPower(state.inertia.bias);
+  uni.uSleeveBoost.value=(state.inertia.sleeve/100)*0.80;
+  uni.uSleeveArc.value=state.inertia.arc/100;
+}
+const MOTION_APPLIERS={};
+function bindMotionPair(key, rangeId, numId, min, max, step){
+  const range=document.getElementById(rangeId);
+  const num=document.getElementById(numId);
+
+  function clean(raw){
+    let v=Number(raw);
+    if(!Number.isFinite(v)) v=state.inertia[key];
+    v=clamp(v,min,max);
+    if(step<1){
+      const places=String(step).split('.')[1]?.length || 0;
+      v=Number(v.toFixed(places));
+    }else{
+      v=Math.round(v/step)*step;
+    }
+    return v;
+  }
+  function apply(raw){
+    const v=clean(raw);
+    state.inertia[key]=v;
+    range.value=String(v);
+    num.value=String(v);
+    syncInertiaUniformShape();
+  }
+  MOTION_APPLIERS[key]=apply;
+
+  range.addEventListener('input',e=>apply(e.target.value));
+  num.addEventListener('input',e=>apply(e.target.value));
+  num.addEventListener('change',e=>apply(e.target.value));
+  num.addEventListener('wheel',e=>{
+    e.preventDefault();
+    apply(state.inertia[key] + (e.deltaY<0 ? step : -step));
+  },{passive:false});
+  apply(state.inertia[key]);
+}
+
+bindMotionPair('strength','inertiaStrength','inertiaStrengthNum',0,15,0.25);
+bindMotionPair('ramp','inertiaRamp','inertiaRampNum',15,300,5);
+bindMotionPair('settle','inertiaSettle','inertiaSettleNum',0.20,2.50,0.05);
+bindMotionPair('elasticity','inertiaElasticity','inertiaElasticityNum',10,100,1);
+bindMotionPair('overshoot','inertiaOvershoot','inertiaOvershootNum',0,100,1);
+bindMotionPair('release','inertiaRelease','inertiaReleaseNum',0,150,1);
+bindMotionPair('sensitivity','inertiaSensitivity','inertiaSensitivityNum',0,100,1);
+bindMotionPair('bias','inertiaBias','inertiaBiasNum',0,100,1);
+bindMotionPair('sleeve','inertiaSleeve','inertiaSleeveNum',0,100,1);
+bindMotionPair('arc','inertiaArc','inertiaArcNum',0,100,1);
+
+document.querySelectorAll('[data-reset-motion]').forEach(btn=>{
+  const key=btn.dataset.resetMotion;
+  const defaultValue=INERTIA_DEFAULTS[key];
+  btn.dataset.tip=`Reset this control to its default value (${defaultValue}).`;
+  btn.addEventListener('click',()=>{
+    const apply=MOTION_APPLIERS[key];
+    if(apply) apply(defaultValue);
+  });
+});
+
+const inertiaEnabled=document.getElementById('inertiaEnabled');
+inertiaEnabled.addEventListener('change',e=>{
+  state.inertia.enabled=e.target.checked;
+  if(!state.inertia.enabled){
+    inertiaInput=inertiaTwist=inertiaVelocity=inertiaReleaseKick=0;
+    inertiaLoadTarget=0;
+    inertiaLastMotionVelocity=0;
+    uni.uTwist.value=0;
+  }
+});
+
+document.getElementById('resetInertia').addEventListener('click',()=>{
+  Object.assign(state.inertia,INERTIA_DEFAULTS);
+  inertiaEnabled.checked=state.inertia.enabled;
+  [
+    ['strength','inertiaStrength','inertiaStrengthNum'],
+    ['ramp','inertiaRamp','inertiaRampNum'],
+    ['settle','inertiaSettle','inertiaSettleNum'],
+    ['elasticity','inertiaElasticity','inertiaElasticityNum'],
+    ['overshoot','inertiaOvershoot','inertiaOvershootNum'],
+    ['release','inertiaRelease','inertiaReleaseNum'],
+    ['sensitivity','inertiaSensitivity','inertiaSensitivityNum'],
+    ['bias','inertiaBias','inertiaBiasNum'],
+    ['sleeve','inertiaSleeve','inertiaSleeveNum'],
+    ['arc','inertiaArc','inertiaArcNum']
+  ].forEach(([key,r,n])=>{
+    document.getElementById(r).value=String(state.inertia[key]);
+    document.getElementById(n).value=String(state.inertia[key]);
+  });
+  syncInertiaUniformShape();
+});
+syncInertiaUniformShape();
 document.getElementById('dotGrid').addEventListener('change',e=>{ state.dotGrid=e.target.checked; drawPatternBackground(); });
 const gridScale=document.getElementById('gridScale');
 const gridScaleNum=document.getElementById('gridScaleNum');
 const gridCharSize=document.getElementById('gridCharSize');
 const gridCharSizeNum=document.getElementById('gridCharSizeNum');
 function applyGridScale(raw){
-  const v=Math.max(50, Math.min(175, Math.round(Number(raw)||100)));
+  const v=Math.max(30, Math.min(175, Math.round(Number(raw)||35)));
   state.gridScale=v;
   gridScale.value=String(v);
   gridScaleNum.value=String(v);
   drawPatternBackground();
 }
 function applyGridCharSize(raw){
-  const v=Math.max(35, Math.min(160, Math.round(Number(raw)||50)));
+  const v=Math.max(30, Math.min(160, Math.round(Number(raw)||45)));
   state.gridCharSize=v;
   gridCharSize.value=String(v);
   gridCharSizeNum.value=String(v);
@@ -1438,6 +2007,9 @@ gridScale.addEventListener('input',e=>applyGridScale(e.target.value));
 gridScaleNum.addEventListener('input',e=>applyGridScale(e.target.value));
 gridCharSize.addEventListener('input',e=>applyGridCharSize(e.target.value));
 gridCharSizeNum.addEventListener('input',e=>applyGridCharSize(e.target.value));
+
+document.getElementById('resetGridScale').addEventListener('click',()=>applyGridScale(35));
+document.getElementById('resetGridCharSize').addEventListener('click',()=>applyGridCharSize(45));
 
 // artwork
 const fileInput=document.getElementById('file');
@@ -1617,6 +2189,96 @@ addEventListener('resize',resize);
 const clock=new THREE.Clock();
 let intro=REDUCED?1:0;
 
+// Tunable rotational cloth inertia.
+// "Settle time" changes the release timescale while preserving roughly the
+// same damping character, so ramp-in and settle-out can be tuned separately.
+const INERTIA_BASE_SETTLE=0.35;
+let inertiaInput=0;
+let inertiaTwist=0;
+let inertiaVelocity=0;
+let inertiaReleaseKick=0;
+let inertiaLoadTarget=0;
+let inertiaLastMotionVelocity=0;
+
+function updateFabricInertia(dt){
+  if(REDUCED || !state.inertia.enabled){
+    inertiaInput=inertiaTwist=inertiaVelocity=inertiaReleaseKick=0;
+    inertiaLoadTarget=0;
+    inertiaLastMotionVelocity=0;
+    uni.uTwist.value=0;
+    return;
+  }
+
+  const maxTwist=THREE.MathUtils.degToRad(state.inertia.strength);
+
+  if(dragging){
+    // While the pointer is held, do NOT run the settling spring.
+    // We only load a trailing deformation and hold it there until release.
+    const raw=orbitInputVelocity;
+    const rampTau=Math.max(0.015,state.inertia.ramp/1000);
+    const inputBlend=1-Math.exp(-dt/rampTau);
+    inertiaInput += (raw-inertiaInput)*inputBlend;
+
+    const sens=clamp(state.inertia.sensitivity/100,0,1);
+    const dead=lerp(0.30,0.04,sens);
+    const full=lerp(4.60,1.80,sens);
+    const mag=Math.abs(inertiaInput);
+
+    if(mag>dead && maxTwist>0){
+      let t=clamp((mag-dead)/Math.max(0.001,full-dead),0,1);
+      t=t*t*(3-2*t);
+
+      // IMPORTANT: use the SAME sign as camera azimuth change.
+      // From the user's apparent-shirt-rotation perspective, this makes the
+      // lower fabric and sleeves trail behind instead of moving ahead.
+      inertiaLoadTarget=Math.sign(inertiaInput)*maxTwist*t;
+    }
+
+    // A second, slower load stage makes the lower fabric visibly "stay back"
+    // before accumulating its lag. Pausing while still held does not settle it.
+    const loadTau=Math.max(0.025,rampTau*1.35);
+    const loadBlend=1-Math.exp(-dt/loadTau);
+    inertiaTwist += (inertiaLoadTarget-inertiaTwist)*loadBlend;
+
+    // No spring velocity is allowed to build while held; all oscillation begins
+    // only after pointer release.
+    inertiaVelocity=0;
+    inertiaReleaseKick=0;
+
+  }else{
+    // Once released, the loaded twist is free to catch up to neutral and swing
+    // past it. This is the only phase where the under-damped spring runs.
+    inertiaInput += (0-inertiaInput)*(1-Math.exp(-dt/0.10));
+
+    const settleScale=clamp(state.inertia.settle/INERTIA_BASE_SETTLE,0.35,7.2);
+    const activeK=clamp(state.inertia.elasticity,10,100);
+    const k=activeK/(settleScale*settleScale);
+
+    const over=clamp(state.inertia.overshoot/100,0,1);
+    const dampingRatio=lerp(1.02,0.18,over);
+    const damping=(2*Math.sqrt(activeK)*dampingRatio)/settleScale;
+
+    if(Math.abs(inertiaReleaseKick)>0.000001){
+      inertiaVelocity += inertiaReleaseKick;
+      inertiaReleaseKick=0;
+    }
+
+    inertiaVelocity += (0-inertiaTwist)*k*dt;
+    inertiaVelocity *= Math.exp(-damping*dt);
+    inertiaTwist += inertiaVelocity*dt;
+    inertiaTwist=clamp(inertiaTwist,-maxTwist*1.20,maxTwist*1.20);
+
+    if(Math.abs(inertiaTwist)<0.00002 && Math.abs(inertiaVelocity)<0.00005){
+      inertiaTwist=0;
+      inertiaVelocity=0;
+      inertiaLoadTarget=0;
+      inertiaLastMotionVelocity=0;
+    }
+  }
+
+  uni.uTwist.value=inertiaTwist;
+}
+
 function draw(){
   camera.position.set(
     state.r*Math.sin(state.el)*Math.sin(state.az),
@@ -1637,6 +2299,7 @@ function tick(){
   state.az+=(state.taz-state.az)*0.22;
   state.el+=(state.tel-state.el)*0.22;
   uni.uWind.value+=(WIND_LEVELS[state.wind]-uni.uWind.value)*0.05;
+  updateFabricInertia(dt);
   draw();
 }
 
@@ -1654,7 +2317,7 @@ await Promise.all([loadImg('iVBORw0KGgoAAAANSUhEUgAABXgAAAYFCAAAAAC5NO5pAAEAAElE
   artworkPresent.back=true; artworkPresent.chest=true;
   syncArtworkAction('back'); syncArtworkAction('chest');
   applyLook();
-  if(REDUCED) uni.uWind.value=0;
+  if(REDUCED){ uni.uWind.value=0; uni.uTwist.value=0; }
   resize(); setView('angle');
   let ok=false;
   try {
