@@ -994,8 +994,9 @@ const FRAG_PRINT=`
           (vPrintUv.y - uUvRectA.y) * uRectA.w / uUvRectA.w
         );
         vec2 p = kArtRotate(d, uRotA) / uRectA.zw + 0.5;
-        if (p.x>0.0 && p.x<1.0 && p.y>0.0 && p.y<1.0) {
+        if (p.x>0.004 && p.x<0.996 && p.y>0.004 && p.y<0.996) {
           float m = texture2D(uInkA, p).a;
+          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * uInkOp);
           kArtworkMask = max(kArtworkMask, m);
         }
@@ -1006,8 +1007,9 @@ const FRAG_PRINT=`
           (vPrintUv.y - uUvRectB.y) * uRectB.w / uUvRectB.w
         );
         vec2 q = kArtRotate(d, uRotB) / uRectB.zw + 0.5;
-        if (q.x>0.0 && q.x<1.0 && q.y>0.0 && q.y<1.0) {
+        if (q.x>0.004 && q.x<0.996 && q.y>0.004 && q.y<0.996) {
           float m = texture2D(uInkB, q).a;
+          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * uInkOp);
           kArtworkMask = max(kArtworkMask, m);
         }
@@ -1017,16 +1019,18 @@ const FRAG_PRINT=`
       float face = smoothstep(0.03, 0.28, abs(N.z));
       if (gl_FrontFacing && uHasA > 0.5 && vObj.z > 0.0) {
         vec2 p = kArtRotate(vObj.xy - uRectA.xy, uRotA) / uRectA.zw + 0.5;
-        if (p.x>0.0 && p.x<1.0 && p.y>0.0 && p.y<1.0) {
+        if (p.x>0.004 && p.x<0.996 && p.y>0.004 && p.y<0.996) {
           float m = texture2D(uInkA, p).a;
+          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * face * uInkOp);
           kArtworkMask = max(kArtworkMask, m * face);
         }
       }
       if (gl_FrontFacing && uHasB > 0.5 && vObj.z < 0.0) {
         vec2 q = kArtRotate(vObj.xy - uRectB.xy, uRotB) / uRectB.zw + 0.5;
-        if (q.x>0.0 && q.x<1.0 && q.y>0.0 && q.y<1.0) {
+        if (q.x>0.004 && q.x<0.996 && q.y>0.004 && q.y<0.996) {
           float m = texture2D(uInkB, vec2(1.0-q.x, q.y)).a;
+          if (m < 0.04) m = 0.0;
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * face * uInkOp);
           kArtworkMask = max(kArtworkMask, m * face);
         }
@@ -1068,7 +1072,7 @@ function patchFabricMaterial(mat){
     sh.fragmentShader = sh.fragmentShader.replace('#include <roughnessmap_fragment>',
       '#include <roughnessmap_fragment>\n roughnessFactor = mix(roughnessFactor, clamp(uArtRough, 0.02, 1.0), clamp(kArtworkMask, 0.0, 1.0));');
   };
-  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v10-edge-fringe-fix';
+  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v11-edge-sample-tighten';
   mat.needsUpdate=true;
   return mat;
 }
