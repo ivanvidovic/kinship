@@ -963,7 +963,7 @@ const THEMES={
   light:{bg:'#EFE8E1'},
   dark:{bg:'#2B1B18'},
 };
-const state={ theme:'light', blank:0, garmentCustom:'#D8D2C7', ink:'auto', inkCustom:'#2B1B18', bg:THEMES.light.bg, dotGrid:true, gridScale:65, gridCharSize:75, light:'soft', wind:1, view:'angle',
+const state={ theme:'light', blank:0, garmentCustom:'#D8D2C7', ink:'auto', inkCustom:'#2B1B18', shirtColorsCustomized:false, bg:THEMES.light.bg, dotGrid:true, gridScale:65, gridCharSize:75, light:'soft', wind:1, view:'angle',
   az:0.62, el:1.30, r:1.55, taz:0.62, tel:1.30, tr:1.55, present:false };
 const WIND_LEVELS=[0,0.011,0.024];
 
@@ -1265,6 +1265,7 @@ function renderGarmentSwatches(){
     b.setAttribute('aria-label',g.name); b.title=g.name;
     b.innerHTML=`<i style="background:${g.hex}"></i>`;
     b.onclick=()=>{
+      state.shirtColorsCustomized=true;
       state.blank=i;
       renderGarmentSwatches();
       applyLook();
@@ -1281,12 +1282,14 @@ function renderGarmentSwatches(){
   custom.innerHTML=`<i style="background:${state.garmentCustom}"></i><input type="color" value="${state.garmentCustom}" aria-label="Custom garment colour">`;
   const picker=custom.querySelector('input');
   const activateCustom=()=>{
+    state.shirtColorsCustomized=true;
     state.blank='custom';
     state.garmentCustom=picker.value;
     renderGarmentSwatches();
     applyLook();
   };
   picker.addEventListener('input',()=>{
+    state.shirtColorsCustomized=true;
     state.blank='custom';
     state.garmentCustom=picker.value;
     custom.setAttribute('aria-checked','true');
@@ -1294,8 +1297,8 @@ function renderGarmentSwatches(){
     applyLook();
   });
   picker.addEventListener('change',activateCustom);
-  custom.addEventListener('pointerdown',()=>{ state.blank='custom'; });
-  custom.addEventListener('click',()=>{ state.blank='custom'; });
+  custom.addEventListener('pointerdown',()=>{ state.shirtColorsCustomized=true; state.blank='custom'; });
+  custom.addEventListener('click',()=>{ state.shirtColorsCustomized=true; state.blank='custom'; });
   sw.appendChild(custom);
 }
 renderGarmentSwatches();
@@ -1307,7 +1310,8 @@ function segment(id,fn){
     fn(b.dataset.v);
   });
 }
-function setInkMode(mode){
+function setInkMode(mode, markCustomized=true){
+  if(markCustomized) state.shirtColorsCustomized=true;
   state.ink=mode;
   document.querySelectorAll('#segInk button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===mode)));
   document.getElementById('customInkChoice').setAttribute('aria-pressed',String(mode==='custom'));
@@ -1317,7 +1321,17 @@ segment('segInk', v=>setInkMode(v));
 segment('segWind',v=>{state.wind=+v;});
 segment('segLight',v=>{state.light=v; applyLightingPreset();});
 segment('segView',v=>setView(v));
-document.querySelectorAll('#themeToggle button').forEach(btn=>btn.addEventListener('click',()=>{ state.theme=btn.dataset.theme; applyTheme(true); applyLook(); }));
+document.querySelectorAll('#themeToggle button').forEach(btn=>btn.addEventListener('click',()=>{
+  state.theme=btn.dataset.theme;
+  applyTheme(true);
+  if(!state.shirtColorsCustomized){
+    state.blank = state.theme==='dark' ? GARMENTS.findIndex(g=>g.name==='Black') : GARMENTS.findIndex(g=>g.name==='Natural');
+    setInkMode('auto', false);
+    renderGarmentSwatches();
+  } else {
+    applyLook();
+  }
+}));
 const inkCustom=document.getElementById('inkCustom');
 const customInkChoice=document.getElementById('customInkChoice');
 customInkChoice.addEventListener('pointerdown',()=>setInkMode('custom'));
