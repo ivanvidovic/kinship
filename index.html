@@ -995,7 +995,7 @@ const FRAG_PRINT=`
         );
         vec2 p = kArtRotate(d, uRotA) / uRectA.zw + 0.5;
         if (p.x>0.0 && p.x<1.0 && p.y>0.0 && p.y<1.0) {
-          float m = texture2D(uInkA, p).a;
+          float m = smoothstep(0.028, 0.11, texture2D(uInkA, p).a);
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * uInkOp);
           kArtworkMask = max(kArtworkMask, m);
         }
@@ -1007,7 +1007,7 @@ const FRAG_PRINT=`
         );
         vec2 q = kArtRotate(d, uRotB) / uRectB.zw + 0.5;
         if (q.x>0.0 && q.x<1.0 && q.y>0.0 && q.y<1.0) {
-          float m = texture2D(uInkB, q).a;
+          float m = smoothstep(0.028, 0.11, texture2D(uInkB, q).a);
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * uInkOp);
           kArtworkMask = max(kArtworkMask, m);
         }
@@ -1018,7 +1018,7 @@ const FRAG_PRINT=`
       if (gl_FrontFacing && uHasA > 0.5 && vObj.z > 0.0) {
         vec2 p = kArtRotate(vObj.xy - uRectA.xy, uRotA) / uRectA.zw + 0.5;
         if (p.x>0.0 && p.x<1.0 && p.y>0.0 && p.y<1.0) {
-          float m = texture2D(uInkA, p).a;
+          float m = smoothstep(0.028, 0.11, texture2D(uInkA, p).a);
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * face * uInkOp);
           kArtworkMask = max(kArtworkMask, m * face);
         }
@@ -1026,7 +1026,7 @@ const FRAG_PRINT=`
       if (gl_FrontFacing && uHasB > 0.5 && vObj.z < 0.0) {
         vec2 q = kArtRotate(vObj.xy - uRectB.xy, uRotB) / uRectB.zw + 0.5;
         if (q.x>0.0 && q.x<1.0 && q.y>0.0 && q.y<1.0) {
-          float m = texture2D(uInkB, vec2(1.0-q.x, q.y)).a;
+          float m = smoothstep(0.028, 0.11, texture2D(uInkB, vec2(1.0-q.x, q.y)).a);
           diffuseColor.rgb = mix(diffuseColor.rgb, uInk, m * face * uInkOp);
           kArtworkMask = max(kArtworkMask, m * face);
         }
@@ -1068,7 +1068,7 @@ function patchFabricMaterial(mat){
     sh.fragmentShader = sh.fragmentShader.replace('#include <roughnessmap_fragment>',
       '#include <roughnessmap_fragment>\n roughnessFactor = mix(roughnessFactor, clamp(uArtRough, 0.02, 1.0), clamp(kArtworkMask, 0.0, 1.0));');
   };
-  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v12-left-edge-heal';
+  mat.customProgramCacheKey=()=> 'kinship-fabric-uv-v13-alpha-tighten-no-mips';
   mat.needsUpdate=true;
   return mat;
 }
@@ -2128,8 +2128,10 @@ function texFromArtwork(cv){
   t.flipY=false;
   t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping;
   t.magFilter=THREE.LinearFilter;
-  t.minFilter=THREE.LinearMipmapLinearFilter;
-  t.generateMipmaps=true;
+  // Mipmaps on black-to-alpha artwork masks can average tiny edge values into
+  // a visible seam on curved fabric. Keep the mask at full-res linear sampling.
+  t.minFilter=THREE.LinearFilter;
+  t.generateMipmaps=false;
   t.premultiplyAlpha=false;
   t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
   t.needsUpdate=true;
