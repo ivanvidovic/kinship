@@ -56,12 +56,6 @@
   canvas#gl{position:relative;z-index:1;display:block;width:100%;height:100%;touch-action:none;cursor:grab}
   canvas#gl.drag{cursor:grabbing}
 
-  .reg{position:absolute;width:26px;height:26px;pointer-events:none;opacity:.5}
-  .reg.tl{top:14px;left:14px}.reg.tr{top:14px;right:14px}
-  .reg.bl{bottom:14px;left:14px}.reg.br{bottom:14px;right:14px}
-  #spec{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;pointer-events:none;display:flex;gap:12px;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;white-space:nowrap}
-  #stage[data-present="1"] .reg{opacity:.28}
-  #stage[data-present="1"] #spec{opacity:0}
 
   #drop{position:absolute;inset:0;display:none;place-items:center;background:rgba(239,232,225,.86);border:1px dashed var(--rule-strong)}
   #drop.on{display:grid}
@@ -239,14 +233,6 @@
   <div id="stage">
     <canvas id="bgPattern" aria-hidden="true"></canvas>
     <canvas id="gl"></canvas>
-    <svg class="reg tl" viewBox="0 0 26 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".8"><circle cx="10" cy="13" r="6.4"/><circle cx="16" cy="13" r="6.4"/><path d="M13 1.5v23M1.5 13h23" stroke-width=".5"/></g></svg>
-    <svg class="reg tr" viewBox="0 0 26 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".8"><circle cx="10" cy="13" r="6.4"/><circle cx="16" cy="13" r="6.4"/><path d="M13 1.5v23M1.5 13h23" stroke-width=".5"/></g></svg>
-    <svg class="reg bl" viewBox="0 0 26 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".8"><circle cx="10" cy="13" r="6.4"/><circle cx="16" cy="13" r="6.4"/><path d="M13 1.5v23M1.5 13h23" stroke-width=".5"/></g></svg>
-    <svg class="reg br" viewBox="0 0 26 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".8"><circle cx="10" cy="13" r="6.4"/><circle cx="16" cy="13" r="6.4"/><path d="M13 1.5v23M1.5 13h23" stroke-width=".5"/></g></svg>
-    <div id="spec">
-      <span class="lbl" id="specView">Front</span><span class="dash"></span>
-      <span class="lbl" id="specAz">Az 000°</span><span class="lbl" id="specEl">El 000°</span>
-    </div>
     <div id="drop"><span class="lbl lbl-ink">Drop a .glb model or an image</span></div>
     <div id="boot"><p class="lbl" id="bootMsg">Loading</p></div>
   </div>
@@ -322,7 +308,7 @@
         </div>
 
         <div class="envItem">
-          <div class="gridHead"><span class="lbl">Pattern Paper Grid</span><input id="dotGrid" type="checkbox" aria-label="Pattern paper grid"></div>
+          <div class="gridHead"><span class="lbl">Pattern Paper Grid</span><input id="dotGrid" type="checkbox" aria-label="Pattern paper grid" checked></div>
           <div class="ctrl"><label for="gridScale">Grid scale</label><input id="gridScale" type="range" min="50" max="175" step="1" value="65" aria-label="Grid scale"><input class="num" id="gridScaleNum" type="number" min="50" max="175" step="1" value="65" inputmode="numeric" aria-label="Grid scale value"></div>
           <div class="ctrl"><label for="gridCharSize">Character size</label><input id="gridCharSize" type="range" min="35" max="160" step="1" value="75" aria-label="Character size"><input class="num" id="gridCharSizeNum" type="number" min="35" max="160" step="1" value="75" inputmode="numeric" aria-label="Character size value"></div>
         </div>
@@ -977,7 +963,7 @@ const THEMES={
   light:{bg:'#EFE8E1'},
   dark:{bg:'#2B1B18'},
 };
-const state={ theme:'light', blank:0, garmentCustom:'#D8D2C7', ink:'auto', inkCustom:'#2B1B18', bg:THEMES.light.bg, dotGrid:false, gridScale:65, gridCharSize:75, light:'soft', wind:1, view:'angle',
+const state={ theme:'light', blank:0, garmentCustom:'#D8D2C7', ink:'auto', inkCustom:'#2B1B18', bg:THEMES.light.bg, dotGrid:true, gridScale:65, gridCharSize:75, light:'soft', wind:1, view:'angle',
   az:0.62, el:1.30, r:1.55, taz:0.62, tel:1.30, tr:1.55, present:false };
 const WIND_LEVELS=[0,0.011,0.024];
 
@@ -1261,7 +1247,6 @@ function setView(v){
   state.view=v;
   document.querySelectorAll('#segView button')
     .forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)));
-  document.getElementById('specView').textContent=v?v[0].toUpperCase()+v.slice(1):'Free';
   if(!v) return;
   const [az,el]=VIEWS[v];
   state.taz=az+Math.round((state.taz-az)/(Math.PI*2))*Math.PI*2;
@@ -1537,7 +1522,6 @@ function resize(){
 }
 addEventListener('resize',resize);
 
-const specAz=document.getElementById('specAz'), specEl=document.getElementById('specEl');
 const clock=new THREE.Clock();
 let intro=REDUCED?1:0;
 
@@ -1561,9 +1545,6 @@ function tick(){
   state.az+=(state.taz-state.az)*0.22;
   state.el+=(state.tel-state.el)*0.22;
   uni.uWind.value+=(WIND_LEVELS[state.wind]-uni.uWind.value)*0.05;
-  const deg=(((-state.az*180/Math.PI)%360)+360)%360;
-  specAz.textContent='Az '+String(Math.round(deg)).padStart(3,'0')+'°';
-  specEl.textContent='El '+String(Math.round(state.el*180/Math.PI)).padStart(3,'0')+'°';
   draw();
 }
 
