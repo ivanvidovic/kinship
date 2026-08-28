@@ -9,7 +9,7 @@
       "surface": "back",
       "prefix": "backfull_design_",
       "start": 1,
-      "count": 0,
+      "count": 2,
       "pad": 2,
       "ext": "png"
     },
@@ -20,7 +20,7 @@
       "surface": "front",
       "prefix": "frontfull_design_",
       "start": 1,
-      "count": 0,
+      "count": 2,
       "pad": 2,
       "ext": "png"
     },
@@ -31,7 +31,7 @@
       "surface": "front",
       "prefix": "frontleftchest_design_",
       "start": 1,
-      "count": 0,
+      "count": 3,
       "pad": 2,
       "ext": "png"
     },
@@ -42,7 +42,7 @@
       "surface": "front",
       "prefix": "frontrightchest_design_",
       "start": 1,
-      "count": 0,
+      "count": 3,
       "pad": 2,
       "ext": "png"
     }
