@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "basePath": "/images",
+  "collections": {
+    "backfull": {
+      "label": "Full Back",
+      "folder": "backfull",
+      "slot": "back",
+      "surface": "back",
+      "prefix": "backfull_design_",
+      "start": 1,
+      "count": 0,
+      "pad": 2,
+      "ext": "png"
+    },
+    "frontfull": {
+      "label": "Full Front",
+      "folder": "frontfull",
+      "slot": "frontFull",
+      "surface": "front",
+      "prefix": "frontfull_design_",
+      "start": 1,
+      "count": 0,
+      "pad": 2,
+      "ext": "png"
+    },
+    "frontleftchest": {
+      "label": "Left Chest",
+      "folder": "frontleftchest",
+      "slot": "frontLeftChest",
+      "surface": "front",
+      "prefix": "frontleftchest_design_",
+      "start": 1,
+      "count": 0,
+      "pad": 2,
+      "ext": "png"
+    },
+    "frontrightchest": {
+      "label": "Right Chest",
+      "folder": "frontrightchest",
+      "slot": "frontRightChest",
+      "surface": "front",
+      "prefix": "frontrightchest_design_",
+      "start": 1,
+      "count": 0,
+      "pad": 2,
+      "ext": "png"
+    }
+  }
+}
