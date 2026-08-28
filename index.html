@@ -276,7 +276,7 @@
     background:transparent
   }
   body.present #presentExitShield{
-    display:block;pointer-events:auto;touch-action:manipulation
+    display:block;pointer-events:auto;touch-action:none
   }
 
   @media (max-width:1180px){
@@ -300,7 +300,19 @@
     .quickSeg button{width:auto;flex:1 1 0;height:30px}
     main{flex-direction:column}
     #stage{flex:1 1 auto}
-    #panel{order:0;flex:0 0 auto;border-right:0;border-left:0;border-top:1px solid var(--rule);max-height:50vh;gap:16px;padding-bottom:calc(var(--pad) + env(safe-area-inset-bottom))}
+    #panel{
+      order:0;flex:0 0 auto;border-right:0;border-left:0;border-top:1px solid var(--rule);
+      max-height:34vh;gap:10px;
+      padding:10px var(--pad) calc(10px + env(safe-area-inset-bottom))
+    }
+
+    /* Compact only the mobile bottom toolbar. Content still scrolls normally,
+       but less vertical UI is reserved so the garment preview gets more room. */
+    #panel .sectionFold>summary{padding:11px 0 10px}
+    #panel .sectionBody{gap:10px;padding-bottom:12px}
+    #panel .artworkPrimary{gap:9px}
+    #panel .appearanceControls{gap:10px}
+    #panel .envItem{padding:10px 0}
 
     /* Mobile Present keeps one shirt and reveals the full-height renderer
        that already exists behind the UI. */
@@ -1716,10 +1728,21 @@ function endOrbitDrag(){
 addEventListener('pointerup',endOrbitDrag);
 addEventListener('pointercancel',endOrbitDrag);
 canvas.addEventListener('wheel',e=>{
-  e.preventDefault(); state.tr=clamp(state.tr+e.deltaY*0.0012,0.72,2.6);
+  e.preventDefault();
+  if(state.present && isMobilePresent()) return;
+  state.tr=clamp(state.tr+e.deltaY*0.0012,0.72,2.6);
 },{passive:false});
 canvas.addEventListener('touchmove',e=>{
-  if(e.touches.length!==2) return; e.preventDefault();
+  if(e.touches.length!==2) return;
+  e.preventDefault();
+
+  // Mobile Present is a fixed presentation view. No pinch zoom is allowed;
+  // touching the shield exits back to the normal interactive view instead.
+  if(state.present && isMobilePresent()){
+    pinch=0;
+    return;
+  }
+
   const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,
                      e.touches[0].clientY-e.touches[1].clientY);
   if(pinch) state.tr=clamp(state.tr+(pinch-d)*0.004,0.72,2.6);
@@ -2385,6 +2408,11 @@ presentExitShield.addEventListener('click',e=>{
   e.stopPropagation();
   if(state.present) exitPresent();
 });
+presentExitShield.addEventListener('wheel',e=>{
+  if(!state.present) return;
+  e.preventDefault();
+  e.stopPropagation();
+},{passive:false});
 
 document.getElementById('btnSave').onclick=()=>{
   if(state.present) return;
